@@ -1,23 +1,20 @@
 var path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const app = express();
-
 const cors = require('cors');
-
 app.use(cors());
 app.use(bodyParser.json());
 
 console.log(__dirname);
 
-// Variables for url and api key
-var aylien = require("aylien_textapi");
 const dotenv = require('dotenv');
 dotenv.config();
+
+var aylien = require("aylien_textapi");
 var textapi = new aylien({
-    application_id: process.env.API_ID, // Accesses the API_ID from the .env file
-    application_key: process.env.API_KEY // Accesses the API_KEY from the .env file
+    application_id: "2a455759",
+    application_key: "344937a5a2e27bc3cc37a13e2ae377d5"
 });
 
 app.get('/', function (req, res) {
@@ -27,14 +24,19 @@ app.get('/', function (req, res) {
 // POST Route
 app.post('/analyze', (req, res) => {
     const { url } = req.body; // assuming you're sending a URL in the POST request
-
+    console.log(`this is the url: ${url}`);
+    if (!url) {
+        return res.status(400).send({ error: 'URL is required' });
+    }    
     textapi.sentiment({ url }, (error, response) => {
         if (error === null) {
+            console.log('AYLIEN API Response:', response);
             res.send(response);
         } else {
+            console.error('AYLIEN API Error:', error);
             res.status(500).send({ error: 'API request failed' });
         }
-    });
+    });    
 });
 
 // Designates what port the app will listen to for incoming requests

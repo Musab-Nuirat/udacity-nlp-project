@@ -1,25 +1,38 @@
-
-
 function handleSubmit(event) {
     event.preventDefault();
 
-    const url = document.getElementById('url').value;
+    const url = document.getElementById('name').value;
 
-    fetch('http://localhost:3000/analyze', {
+    fetch('http://localhost:8000/analyze', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ url }),
     })
-        .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then((data) => {
             console.log('API response:', data);
-            document.getElementById('result').innerText = `Sentiment: ${data.polarity}`;
+            updateUI(data);
         })
         .catch((error) => console.error('Error:', error));
-}
-document.getElementById('submit').addEventListener('click', handleSubmit);
-// Export the handleSubmit function
-export { handleSubmit };
 
+}
+
+// Function to update the UI
+function updateUI(data) {
+    document.getElementById('result').innerHTML = `
+        <p>Sentiment Polarity: ${data.polarity}</p>
+        <p>Subjectivity: ${data.subjectivity}</p>
+        <p>Analyzed Text: ${data.text}</p>
+    `;
+}
+
+document.getElementById('submitButton').addEventListener('click', handleSubmit);
+
+export { handleSubmit };

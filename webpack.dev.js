@@ -48,4 +48,4 @@ module.exports = {
             // You can also include other minimizers like TerserPlugin for JS
         ],
     },
-}
+};
