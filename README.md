@@ -7,7 +7,7 @@ This project is a sentiment analysis application that analyzes text input using 
 ## How to Run the App
 1. Clone this repository to your local machine:
    ```
-   git clone <repository_url>
+   git clone https://github.com/Musab-Nuirat/udacity-nlp-project.git
    ```
 2. Install dependencies:
    ```
