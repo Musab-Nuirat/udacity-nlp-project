@@ -13,8 +13,8 @@ dotenv.config();
 
 var aylien = require("aylien_textapi");
 var textapi = new aylien({
-    application_id: "2a455759",
-    application_key: "344937a5a2e27bc3cc37a13e2ae377d5"
+    application_id: process.env.API_ID,
+    application_key: process.env.API_KEY
 });
 
 app.get('/', function (req, res) {
